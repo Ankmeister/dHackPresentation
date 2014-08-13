@@ -25,6 +25,10 @@ def get_picsize_from_asciipic(asciipic, font=monospace6):
 	height = len(asciipic) * size[1]
 	return (size[0], height)
 
+def center_pic(pic, xoffset = 0, yoffset = 0):
+	x = (WIDTH - pic.get_width() + xoffset) / 2
+	y = (HEIGHT - pic.get_height() + yoffset) / 2
+	return (x,y)
 
 def delete_random_letter(l, count):
 	if count == 0:
@@ -93,10 +97,9 @@ def from_asciipic_to_realtext(pic,asciipic, text, (textx, texty), asciipos):
 	fade_to_black()
 	
 	
-def center_pic(pic):
-	x = (WIDTH - pic.get_width()) / 2
-	y = (HEIGHT - pic.get_height()) / 2
-	return (x,y)
+def fade_pic_to_real_text(pic, asciipic, picpos, text, textpos):
+	fade_pic_to_ascii(pic,asciipic, picpos)
+	from_asciipic_to_realtext(pic, asciipic, text, textpos, picpos)
 	
 
 def main():
@@ -114,21 +117,17 @@ def main():
 
 	pygame.mixer.music.play(-1)
 
-	fade_pic_to_ascii(ninjapic, ninja, center_pic(ninjapic))
-	from_asciipic_to_realtext(ninjapic,ninja, ninja_text, (234, 650), center_pic(ninjapic))
 
-	fade_pic_to_ascii(dHack, logo, center_pic(dHack))
-	from_asciipic_to_realtext(dHack,logo, intro_text, (2, 100), center_pic(dHack))
+	fade_pic_to_real_text(dHack, logo, center_pic(dHack), intro_text, (2,100))
 
-	fade_pic_to_ascii(haggepic, hagge, center_pic(haggepic))
-	from_asciipic_to_realtext(haggepic, hagge, hagge_text, (234, 650), center_pic(haggepic))
+	fade_pic_to_real_text(haggepic, hagge, center_pic(haggepic), hagge_text, (234, 700))
 
+	fade_pic_to_real_text(ninjapic, ninja, center_pic(ninjapic, 0, -200), ninja_text, (180,700))
 
-	fade_pic_to_ascii(skurkpic, skurk, center_pic(skurkpic))
-	from_asciipic_to_realtext(skurkpic, skurk, skurk_text, (234, 650), center_pic(skurkpic))
+	fade_pic_to_real_text(skurkpic, skurk, center_pic(skurkpic), skurk_text, (234, 650))
 
-	fade_pic_to_ascii(mortpic, mort, center_pic(mortpic))
-	from_asciipic_to_realtext(mortpic, mort, mort_text, (277,650), center_pic(mortpic))
+	fade_pic_to_real_text(mortpic, mort, center_pic(mortpic), mort_text, (277,700))
+
 	print time() - start_time
 
 
