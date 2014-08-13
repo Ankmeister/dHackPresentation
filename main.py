@@ -2,10 +2,11 @@
 import pygame
 from pygame.locals import FULLSCREEN
 import pics
-from time import sleep
+from time import sleep,time
 from random import randint
 from texts import *
 
+start_time = time()
 pygame.init()
 WIDTH = 1280
 HEIGHT = 800
@@ -48,14 +49,14 @@ def fade_in(pic,pos):
 
 def fade_to_black():
 	blackground = pygame.Surface(screen.get_size())
-	for i in range(255):
+	for i in range(100): #apparantly, 100 is enough.
 		blackground.set_alpha(i)
 		screen.blit(blackground,(0,0))
 		pygame.display.flip()
 
 def fade_pic_to_ascii(pic,asciipic,pos, initdelay = 0):
 	fade_in(pic,pos)
-	for t in range(255,0,-1):
+	for t in range(255,0,-2):
 		screen.fill(BLACK)
 		print_asciipic(asciipic,pos)
 		pic.set_alpha(t)
@@ -63,7 +64,6 @@ def fade_pic_to_ascii(pic,asciipic,pos, initdelay = 0):
 		pygame.display.flip()
 		sleep(initdelay)
 		initdelay = 0
-	sleep(0.5)
 
 def from_asciipic_to_realtext(pic,asciipic, text, (textx, texty), asciipos):
 	total_letters_in_ascii = len(asciipic[0]) * len(asciipic)
@@ -82,7 +82,7 @@ def from_asciipic_to_realtext(pic,asciipic, text, (textx, texty), asciipos):
 			delete_random_letter(asciipic, ratio)
 			print_asciipic(asciipic, asciipos)
 			pygame.display.flip()
-			sleep(0.06)
+			sleep(0.01)
 		i+=1
 
 	#clear asciipic completely when text is done (because of integer-ratio)
@@ -110,7 +110,6 @@ def main():
 
 	pygame.mixer.music.play(-1)
 
-	print get_picsize_from_asciipic(logo)
 	fade_pic_to_ascii(dHack, logo, (318, 106))
 	from_asciipic_to_realtext(dHack,logo, intro_text, (2, 100), (318,106))
 
@@ -125,6 +124,7 @@ def main():
 
 	fade_pic_to_ascii(mortpic, mort, (277, 40))
 	from_asciipic_to_realtext(mortpic, mort, mort_text, (277,650), (277,40))
+	print time() - start_time
 
 
 if __name__=="__main__":
