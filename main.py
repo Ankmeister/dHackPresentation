@@ -69,7 +69,7 @@ def fade_pic_to_ascii(pic,asciipic,pos, initdelay = 0):
 		sleep(initdelay)
 		initdelay = 0
 
-def from_asciipic_to_realtext(pic,asciipic, text, (textx, texty), asciipos):
+def from_asciipic_to_realtext(pic,asciipic, text, (textx, texty), asciipos, font=monospace20):
 	total_letters_in_ascii = len(asciipic[0]) * len(asciipic)
 	total_letters_in_text = sum([len(a) for a in text])
 	ratio = total_letters_in_ascii/total_letters_in_text #integer-ratio is good enough
@@ -82,7 +82,7 @@ def from_asciipic_to_realtext(pic,asciipic, text, (textx, texty), asciipos):
 			blackground.fill(BLACK)
 			screen.blit(blackground, asciipos)
 			
-			screen.blit(monospace20.render(text[i][:j+1], 1, ORANGE), (textx,texty + 20*i))
+			screen.blit(monospace20.render(text[i][:j+1], 1, ORANGE), (textx,texty + font.get_height()*i))
 			delete_random_letter(asciipic, ratio)
 			print_asciipic(asciipic, asciipos)
 			pygame.display.flip()
@@ -122,7 +122,7 @@ def main():
 
 	fade_pic_to_real_text(haggepic, hagge, center_pic(haggepic), hagge_text, (234, 700))
 
-	fade_pic_to_real_text(ninjapic, ninja, center_pic(ninjapic, 0, -200), ninja_text, (180,700))
+	fade_pic_to_real_text(ninjapic, ninja, center_pic(ninjapic, 0, -150), ninja_text, (100,650))
 
 	fade_pic_to_real_text(skurkpic, skurk, center_pic(skurkpic), skurk_text, (234, 650))
 
