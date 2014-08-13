@@ -158,7 +158,7 @@ ninja.append(list("ddddhdddhhddddddddddddddddhhhddddddddhyssooooooooooooooossyyy
 ninja.append(list("ddddhhdddhhhddddddhddddddddhhhhhhddhyssoo++++++++++++++oooosssssshmMMMMMMMMMMMMNNNNMNMMMMMMMMMMMMMMMNNNNMMMMMMMMMMMNmdyosooooosoo+++ooo+ssssso+++++ooooooosssyhsyhsssyhyyyssooso++++ooossssdNMMNNNNNNNNNNmmmmmmNNNNNNNNmmmmmmmmNNNNNNNNmmmmmmmmNNNNNNNNNNN"))
 ninja.append(list("dddddhhdhhdhdddddddhddddhhddhhhhddhysoo+++/////++++++++++oooooosssshNMMNNMMMMMMMMNMNMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMNmhyo++osso++/++/+oooo++++++oyso/+++o++/o+yooohysso++oooosoooooooshhdddmNMMNNNNNNNNNNNNNNNNNmmNNmmmmmmmmmmmmmmmmmmmmmmmmmmmmNNNNNNNN"))
 ninja.append(list("ddddhhhhhhhhhhhdddhdhhdddhhdhhddhyssoo++//////////+++++++++++ooooooosdMMNNNMMMMMMMMMMNNMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMmhyyyhhhyyyyssyyyssyyyhhyyhyso++soo+oyhyooo+//////+++oosyyhmNdhyyyhNNNNMMMNNNNNNNNNNNmmNNNNNmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmNNNNN"))
-ninja.append(list("ddddhhhhhhhhhhhhdddhdhhdhdhhddhyssooo++///////////++++++++++++++oooooohNMNNNMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMNMMMMMMMMMMMMMMMMMNmdhysoosssssssssoosyyysyhdhyhhhssoo++++++"))
+ninja.append(list("ddddhhhhhhhhhhhhdddhdhhdhdhhddhyssooo++///////////++++++++++++++oooooohNMNNNMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMNMMMMMMMMMMMMMMMMMNmdhysoosssssssssoosyyysyhdhyhhhssoo++++++ooooydmmmmmmNNNMMMNmhhmmmNNNNNNNMMNNNNNNNNNNNNNNmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmNN"))
 
 
 skurk = []
