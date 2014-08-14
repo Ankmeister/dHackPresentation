@@ -37,11 +37,27 @@ def delete_random_letter(l, count):
 	indices = [l.index(i) for i in l if len(i) != 0]
 	l[indices[randint(0,len(indices) - 1)]].pop()
 	delete_random_letter(l, count - 1)
+	
+def draw_ascii_pictures(text, (x, y), font=monospace6):
+	dickbutt = [0]*len(text)
+	rowIndices = range(len(text))
+	print(dickbutt)
+	print(rowIndices)
+	while rowIndices:
+		index = randint(0, len(rowIndices)-1)
+		dickbutt[index] += 1
+		screen.blit(font.render("".join(text[index][:dickbutt[index]]) ,1, ORANGE),(x,y+font.get_height()*index))
+		if dickbutt[index] == len(text[0]):
+			rowIndices.remove(index)
+		pygame.display.flip()
+	
+		
 
 def print_asciipic(asciipic, (x,y), font=monospace6):
 	for i in asciipic:
 		screen.blit(font.render("".join(i),1, ORANGE),(x,y))
 		y += font.get_height()
+		pygame.display.flip()
 
 
 def fade_in(pic,pos):
@@ -98,8 +114,10 @@ def from_asciipic_to_realtext(pic,asciipic, text, (textx, texty), asciipos, font
 	
 	
 def fade_pic_to_real_text(pic, asciipic, picpos, text, textpos):
-	fade_pic_to_ascii(pic,asciipic, picpos)
-	from_asciipic_to_realtext(pic, asciipic, text, textpos, picpos)
+	draw_ascii_pictures(asciipic, picpos)
+	sleep(3)
+	#fade_pic_to_ascii(pic,asciipic, picpos)
+	#from_asciipic_to_realtext(pic, asciipic, text, textpos, picpos)
 	
 
 def main():
@@ -117,10 +135,10 @@ def main():
 
 	pygame.mixer.music.play(-1)
 
+	fade_pic_to_real_text(haggepic, hagge, center_pic(haggepic), hagge_text, (234, 700))
 
 	fade_pic_to_real_text(dHack, logo, center_pic(dHack), intro_text, (2,100))
 
-	fade_pic_to_real_text(haggepic, hagge, center_pic(haggepic), hagge_text, (234, 700))
 
 	fade_pic_to_real_text(ninjapic, ninja, center_pic(ninjapic, 0, -150), ninja_text, (100,650))
 
