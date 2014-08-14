@@ -41,14 +41,13 @@ def delete_random_letter(l, count):
 def draw_ascii_pictures(text, (x, y), font=monospace6):
 	dickbutt = [0]*len(text)
 	rowIndices = range(len(text))
-	print(dickbutt)
-	print(rowIndices)
 	while rowIndices:
 		index = randint(0, len(rowIndices)-1)
 		dickbutt[index] += 1
-		screen.blit(font.render("".join(text[index][:dickbutt[index]]) ,1, ORANGE),(x,y+font.get_height()*index))
-		if dickbutt[index] == len(text[0]):
-			rowIndices.remove(index)
+		screen.blit(font.render("".join(text[index][:dickbutt[index]]) ,1, ORANGE),(x,y+font.get_height()*rowIndices[index]))
+		if dickbutt[index] == len(text[0])-1:
+			rowIndices.pop(index)
+			dickbutt.pop(index)
 		pygame.display.flip()
 	
 		
