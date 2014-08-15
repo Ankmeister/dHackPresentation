@@ -39,6 +39,7 @@ def delete_random_letter(l, count):
 	delete_random_letter(l, count - 1)
 	
 def draw_ascii_pictures(text, (x, y), font=monospace6):
+	"""Draws asciipicture one letter at a time"""
 	dickbutt = [0]*len(text)
 	rowIndices = range(len(text))
 	while rowIndices:
@@ -52,15 +53,14 @@ def draw_ascii_pictures(text, (x, y), font=monospace6):
 	
 		
 
-def print_asciipic(asciipic, (x,y), font=monospace6):
+def blit_asciipic(asciipic, (x,y),font=monospace6):
 	for i in asciipic:
 		screen.blit(font.render("".join(i),1, ORANGE),(x,y))
 		y += font.get_height()
-		pygame.display.flip()
 
 
 def fade_in(pic,pos):
-	for t in range(255):
+	for t in range(100):
 		pic.set_alpha(t)
 		screen.blit(pic,pos)
 		pygame.display.flip()
@@ -73,18 +73,18 @@ def fade_to_black():
 		screen.blit(blackground,(0,0))
 		pygame.display.flip()
 
-def fade_pic_to_ascii(pic,asciipic,pos, initdelay = 0):
+def fade_pic_to_ascii(pic,asciipic,pos):
 	fade_in(pic,pos)
 	for t in range(255,0,-2):
 		screen.fill(BLACK)
-		print_asciipic(asciipic,pos)
+		blit_asciipic(asciipic,pos)
 		pic.set_alpha(t)
 		screen.blit(pic, pos)
 		pygame.display.flip()
-		sleep(initdelay)
-		initdelay = 0
 
 def from_asciipic_to_realtext(pic,asciipic, text, (textx, texty), asciipos, font=monospace20):
+	"""For a printed asciipicture, this function animates the asciipicture into text (by deleting letters from asciipic),
+	and then fades back the given picture (pic) at the position of the old asciipic"""
 	total_letters_in_ascii = len(asciipic[0]) * len(asciipic)
 	total_letters_in_text = sum([len(a) for a in text])
 	ratio = total_letters_in_ascii/total_letters_in_text #integer-ratio is good enough
@@ -99,7 +99,7 @@ def from_asciipic_to_realtext(pic,asciipic, text, (textx, texty), asciipos, font
 			
 			screen.blit(monospace20.render(text[i][:j+1], 1, ORANGE), (textx,texty + font.get_height()*i))
 			delete_random_letter(asciipic, ratio)
-			print_asciipic(asciipic, asciipos)
+			blit_asciipic(asciipic, asciipos)
 			pygame.display.flip()
 			sleep(0.01)
 		i+=1
@@ -112,11 +112,16 @@ def from_asciipic_to_realtext(pic,asciipic, text, (textx, texty), asciipos, font
 	fade_to_black()
 	
 	
+def asciipic_to_real_pic(pic,asciipic, picpos):
+	"""Animates an asciipic by writing one letter at a time, and then fades the finished asciipicture into pic"""
+	draw_ascii_pictures(asciipic,picpos)
+	fade_in(pic, picpos)
+	fade_to_black()
+
 def fade_pic_to_real_text(pic, asciipic, picpos, text, textpos):
-	draw_ascii_pictures(asciipic, picpos)
-	sleep(3)
-	#fade_pic_to_ascii(pic,asciipic, picpos)
-	#from_asciipic_to_realtext(pic, asciipic, text, textpos, picpos)
+	fade_pic_to_ascii(pic,asciipic, picpos)
+	from_asciipic_to_realtext(pic, asciipic, text, textpos, picpos)
+
 	
 
 def main():
@@ -136,14 +141,13 @@ def main():
 
 	fade_pic_to_real_text(haggepic, hagge, center_pic(haggepic), hagge_text, (234, 700))
 
-	fade_pic_to_real_text(dHack, logo, center_pic(dHack), intro_text, (2,100))
-
-
 	fade_pic_to_real_text(ninjapic, ninja, center_pic(ninjapic, 0, -150), ninja_text, (100,650))
 
 	fade_pic_to_real_text(skurkpic, skurk, center_pic(skurkpic), skurk_text, (234, 650))
 
 	fade_pic_to_real_text(mortpic, mort, center_pic(mortpic), mort_text, (277,700))
+
+	asciipic_to_real_pic(dHack, logo, center_pic(dHack))
 
 	print time() - start_time
 
