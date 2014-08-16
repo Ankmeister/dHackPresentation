@@ -1,16 +1,21 @@
 # -*- coding: utf-8 -*-
 import pygame
+import argparse
 from pygame.locals import FULLSCREEN
 import pics
 from time import sleep,time
 from random import randint
 from texts import *
 
+parser = argparse.ArgumentParser(description='dHackpresentation')
+parser.add_argument('--fullscreen', action='store_const', const=pygame.FULLSCREEN, default=0, help='Start in fullscreen')
+args = parser.parse_args()
+
 start_time = time()
 pygame.init()
 WIDTH = 1280
 HEIGHT = 800
-screen = pygame.display.set_mode((WIDTH,HEIGHT))
+screen = pygame.display.set_mode((WIDTH,HEIGHT), args.fullscreen)
 BLACK = (0,0,0)
 ORANGE = (255,102,0)
 pygame.mixer.pre_init(44100, -16, 2, 2048) 
