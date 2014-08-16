@@ -49,8 +49,11 @@ def draw_ascii_pictures(text, (x, y), font=monospace6):
 	rowIndices = range(len(text))
 	while rowIndices:
 		index = randint(0, len(rowIndices)-1)
+		letterToRender = "".join(text[index][dickbutt[index]])
+		screen.blit(font.render(letterToRender ,1, ORANGE),(x+font.size(text[0][0])[0]*dickbutt[index],y+font.get_height()*rowIndices[index]))
+		screen.blit(font.render(letterToRender ,1, ORANGE),(x+font.size(text[0][0])[0]*dickbutt[index],y+font.get_height()*rowIndices[index]))
+		screen.blit(font.render(letterToRender ,1, ORANGE),(x+font.size(text[0][0])[0]*dickbutt[index],y+font.get_height()*rowIndices[index]))
 		dickbutt[index] += 1
-		screen.blit(font.render("".join(text[index][:dickbutt[index]]) ,1, ORANGE),(x,y+font.get_height()*rowIndices[index]))
 		if dickbutt[index] == len(text[0])-1:
 			rowIndices.pop(index)
 			dickbutt.pop(index)
