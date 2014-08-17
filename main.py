@@ -13,8 +13,14 @@ args = parser.parse_args()
 
 start_time = time()
 pygame.init()
-WIDTH = 1280
-HEIGHT = 800
+if args.fullscreen:
+	videoinfo = pygame.display.Info()
+	WIDTH = videoinfo.current_w
+	HEIGHT = videoinfo.current_h
+else:
+	WIDTH = 1280
+	HEIGHT = 800
+
 screen = pygame.display.set_mode((WIDTH,HEIGHT), args.fullscreen)
 BLACK = (0,0,0)
 ORANGE = (255,102,0)
