@@ -51,7 +51,7 @@ def delete_random_letter(l, count):
 	l[indices[randint(0,len(indices) - 1)]].pop()
 	delete_random_letter(l, count - 1)
 	
-def draw_ascii_pictures(text, (x, y), delay, font=monospace6):
+def draw_ascii_pictures(text, (x, y), delay=5000, font=monospace6):
 	"""Draws asciipicture one letter at a time"""
 	dickbutt = [0]*len(text)
 	rowIndices = range(len(text))
@@ -71,7 +71,6 @@ def draw_ascii_pictures(text, (x, y), delay, font=monospace6):
 			rowIndices.pop(index)
 			dickbutt.pop(index)
 		pygame.display.update(pygame.Rect(xpos, ypos, fontwidth, fontheight))
-		timenow = time()
 		uglyDelay(delay)
 	
 	return y+font.get_height()*len(text)
@@ -81,30 +80,17 @@ def uglyDelay(delay):
 	for thisCodeIsHorrible in range(delay):
 		continue
 	
-def draw_ascii_pictures2(mort, (x,y), font=monospace6):
-	fontwidth = font.size("H")[0]
-	fontheight = font.get_height()
-	for tjenna in range(len(mort[0])):
-		for dickbutt in range(len(mort)):
-			xpos = x+fontwidth*tjenna
-			ypos = y+fontheight*dickbutt
-			screen.blit(font.render(mort[dickbutt][tjenna] ,1, ORANGE),(xpos,ypos))
-		pygame.display.flip()
-		sleep(0.1)
-
-
 def blit_asciipic(asciipic, (x,y),font=monospace6):
 	for i in asciipic:
 		screen.blit(font.render("".join(i),1, ORANGE),(x,y))
 		y += font.get_height()
 
 def fade_in(pic, pos, adddelay=0):
-	for t in range(100):
+	for t in range(50):
 		pic.set_alpha(t)
 		screen.blit(pic,pos)
 		pygame.display.flip()
 		sleep(0.02+adddelay)
-	sleep(1)
 
 def fade_to_black(delay=0):
 	blackground = pygame.Surface(screen.get_size())
@@ -163,6 +149,22 @@ def asciipic_to_real_pic(pic,asciipic, picpos, delay=0):
 	screen.blit(monospace40.render(dHack ,1, ORANGE),(center_text([dHack], monospace40),bottomPic))
 	pygame.display.flip()
 
+def asciipic_to_real_pic_with_text(pic,asciipic, picpos, text, textpos, delay):
+	"""Animates an asciipic by writing one letter at a time, and then fades the finished asciipicture into pic"""
+	bottomPic = draw_ascii_pictures(asciipic,picpos, delay)
+	fade_in(pic, picpos, 0.001)
+	pygame.display.flip()
+	print_text_slowly(text,textpos, 0.05)
+	sleep(3)
+	fade_to_black()
+
+def print_text_slowly(text,(x,y), adddelay=0, font=monospace20):
+	for i in range(len(text)):
+		for j in range(len(text[i])):
+			screen.blit(monospace20.render(text[i][:j+1], 1, ORANGE), (x,y + font.get_height()*i))
+			sleep(adddelay)
+			pygame.display.flip()
+			
 def fade_pic_to_real_text(pic, asciipic, picpos, text, textpos, adddelay=0):
 	fade_pic_to_ascii(pic, asciipic, picpos)
 	from_asciipic_to_realtext(pic, asciipic, text, textpos, picpos, adddelay)
@@ -249,6 +251,7 @@ def main():
 	#asciipic_to_real_pic(ninjapic, ninja, center_pic(ninjapic, 0, -150), 5000)
 	#asciipic_to_real_pic(skurkpic, skurk, center_pic(skurkpic, 0, -150), 5000)
 	#asciipic_to_real_pic(mortpic, mort, center_pic(mortpic, 0, -150), 5000) 
+
 	#fade_pic_to_real_text(ninjapic, ninja, center_pic(ninjapic, 0, -140), ninja_text, (center_text(ninja_text), 650))
 	#fade_pic_to_real_text(skurkpic, skurk, center_pic(skurkpic, 0, -150), skurk_text, (center_text(skurk_text), 650), 0.015)
 	#fade_pic_to_real_text(mortpic, mort, center_pic(mortpic, 0, -150), mort_text, (center_text(mort_text), 580), 0.005)
