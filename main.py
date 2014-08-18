@@ -64,19 +64,20 @@ def draw_ascii_pictures(text, (x, y), font=monospace6):
 			rowIndices.pop(index)
 			dickbutt.pop(index)
 		pygame.display.flip()
-
+	
+	return y+font.get_height()*len(text)
 
 def blit_asciipic(asciipic, (x,y),font=monospace6):
 	for i in asciipic:
 		screen.blit(font.render("".join(i),1, ORANGE),(x,y))
 		y += font.get_height()
 
-def fade_in(pic,pos):
+def fade_in(pic, pos, adddelay=0):
 	for t in range(80):
 		pic.set_alpha(t)
 		screen.blit(pic,pos)
 		pygame.display.flip()
-		sleep(0.02)
+		sleep(0.02+adddelay)
 	sleep(1)
 
 def fade_to_black():
@@ -111,7 +112,7 @@ def from_asciipic_to_realtext(pic, asciipic, text, (textx, texty), asciipos, add
 			screen.blit(blackground, asciipos)
 			
 			screen.blit(monospace20.render(text[i][:j+1], 1, ORANGE), (textx,texty + font.get_height()*i))
-			delete_random_letter(asciipic, ratio-3)
+			delete_random_letter(asciipic, ratio)
 			blit_asciipic(asciipic, asciipos)
 			pygame.display.flip()
 			sleep(0.01+adddelay)
@@ -128,8 +129,13 @@ def from_asciipic_to_realtext(pic, asciipic, text, (textx, texty), asciipos, add
 	
 def asciipic_to_real_pic(pic,asciipic, picpos):
 	"""Animates an asciipic by writing one letter at a time, and then fades the finished asciipicture into pic"""
-	draw_ascii_pictures(asciipic,picpos)
-	fade_in(pic, picpos)
+	bottomPic = draw_ascii_pictures(asciipic,picpos)
+	fade_in(pic, picpos, 0.01)
+	sleep(1)
+	dHack = "TJENNA"
+	screen.blit(monospace20.render(dHack ,1, ORANGE),(center_text([dHack]),bottomPic))
+	pygame.display.flip()
+	sleep(3)
 	fade_to_black()
 
 def fade_pic_to_real_text(pic, asciipic, picpos, text, textpos, adddelay=0):
@@ -152,17 +158,17 @@ def main():
 	haggepic = pygame.transform.scale(pygame.image.load('ingencd.png'), (get_picsize_from_asciipic(hagge))).convert()
 
 	pygame.mixer.music.play(-1)
-
+	
 	fade_pic_to_real_text(haggepic, hagge, center_pic(haggepic, 0, -150), hagge_text, (center_text(hagge_text), 600), 0.01)
 
 	fade_pic_to_real_text(ninjapic, ninja, center_pic(ninjapic, 0, -140), ninja_text, (center_text(ninja_text), 650))
 
-	fade_pic_to_real_text(skurkpic, skurk, center_pic(skurkpic, 0, -150), skurk_text, (center_text(skurk_text), 650), 0.02)
+	fade_pic_to_real_text(skurkpic, skurk, center_pic(skurkpic, 0, -150), skurk_text, (center_text(skurk_text), 650), 0.025)
 
-	fade_pic_to_real_text(mortpic, mort, center_pic(mortpic, 0, -150), mort_text, (center_text(mort_text), 700))
-
+	fade_pic_to_real_text(mortpic, mort, center_pic(mortpic, 0, -150), mort_text, (center_text(mort_text), 580), 0.005)
+	
 	asciipic_to_real_pic(dHack, logo, center_pic(dHack))
-
+	
 	print time() - start_time
 
 def center_text(text):
