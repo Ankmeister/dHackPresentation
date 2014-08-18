@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import subprocess
 import pygame
 import argparse
 from pygame.locals import FULLSCREEN
@@ -29,6 +30,7 @@ pygame.mixer.music.load('mindhest.ogg')
 monospace6 = pygame.font.SysFont("monospace", 6)
 monospace10 = pygame.font.SysFont("monospace", 10)
 monospace20 = pygame.font.SysFont("monospace", 20)
+monospace40 = pygame.font.SysFont("monospace", 40)
 
 
 def get_picsize_from_asciipic(asciipic, font=monospace6):
@@ -57,7 +59,8 @@ def draw_ascii_pictures(text, (x, y), delay, font=monospace6):
 	fontheight = font.get_height()
 	while rowIndices:
 		index = randint(0, len(rowIndices)-1)
-		letterToRender = text[index][dickbutt[index]]
+		
+		letterToRender = text[rowIndices[index]][dickbutt[index]]
 		xpos = x+fontwidth*dickbutt[index]
 		ypos = y+font.get_height()*rowIndices[index]
 		screen.blit(font.render(letterToRender ,1, ORANGE),(xpos,ypos))
@@ -151,22 +154,20 @@ def from_asciipic_to_realtext(pic, asciipic, text, (textx, texty), asciipos, add
 	fade_to_black()
 	
 	
-def asciipic_to_real_pic(pic,asciipic, picpos, delay):
+def asciipic_to_real_pic(pic,asciipic, picpos, delay=0):
 	"""Animates an asciipic by writing one letter at a time, and then fades the finished asciipicture into pic"""
 	bottomPic = draw_ascii_pictures(asciipic,picpos, delay)
 	fade_in(pic, picpos, 0.01)
 	sleep(1)
 	dHack = "TJENNA"
-	screen.blit(monospace20.render(dHack ,1, ORANGE),(center_text([dHack]),bottomPic))
+	screen.blit(monospace40.render(dHack ,1, ORANGE),(center_text([dHack], monospace40),bottomPic))
 	pygame.display.flip()
-	sleep(3)
-	fade_to_black()
 
 def fade_pic_to_real_text(pic, asciipic, picpos, text, textpos, adddelay=0):
 	fade_pic_to_ascii(pic, asciipic, picpos)
 	from_asciipic_to_realtext(pic, asciipic, text, textpos, picpos, adddelay)
 
-def asciipic_to_real_pic_with_text(picture, asciitext, (x,y), infotext, textpos, delay, font=monospace6, textfont=monospace20):
+def asciipic_to_real_pic_with_text(picture, asciitext, picpos, infotext, (textx, texty), font=monospace6, textfont=monospace20):
 	total_letters_in_pic = len(asciitext[0]) * len(asciitext)
 	total_letters_in_text = sum([len(a) for a in infotext])
 	ratio = total_letters_in_pic/total_letters_in_text
@@ -175,42 +176,62 @@ def asciipic_to_real_pic_with_text(picture, asciitext, (x,y), infotext, textpos,
 	rowIndices = range(len(asciitext))
 	fontwidth = font.size("O")[0]
 	fontheight = font.get_height()
+	fontwidth2 = monospace20.size("Y")[0]
+	fontheight2 = monospace20.get_height()
 	
-	while 
-	while rowIndices:
-		index = randint(0, len(rowIndices)-1)
-		letterToRender = asciitext[index][dickbutt[index]]
-		xpos = x+fontwidth*dickbutt[index]
-		ypos = y+font.get_height()*rowIndices[index]
-		screen.blit(font.render(letterToRender ,1, ORANGE),(xpos,ypos))
-		screen.blit(font.render(letterToRender ,1, ORANGE),(xpos,ypos))
-		screen.blit(font.render(letterToRender ,1, ORANGE),(xpos,ypos))
-		dickbutt[index] += 1
-		if dickbutt[index] >= len(asciitext[0])-1:
-			rowIndices.pop(index)
-			dickbutt.pop(index)
-		pygame.display.update(pygame.Rect(xpos, ypos, fontwidth, fontheight))
-		timenow = time()
-		uglyDelay(delay)
+	textrow = 0
+	textindex = 0
 	
+	picdone = False
+	textdone = False
+	done = False
+	while not done:
+		if not picdone:
+			picdone = draw_pic_letters(rowIndices, dickbutt, asciitext, picpos, fontwidth, fontheight, ratio)
+		if not textdone:
+			x = textx+textindex*fontwidth2
+			y = texty+textrow*fontheight2
+			screen.blit(monospace20.render(infotext[textrow][textindex], 1, ORANGE), (x, y))
+			pygame.display.update(pygame.Rect(x, y, fontwidth2, fontheight2))
+			textindex += 1
+			if textindex == len(infotext[textrow]):
+				textrow += 1
+				textindex = 0
+			if textrow == len(infotext):
+				textdone = True
+
+		done = textdone and picdone
+		sleep(0.03)
+	fade_in(picture, picpos)
+	sleep(1)
 	fade_to_black(0.01)
 
-def draw_pic_letter(rowIndices, dickbutt, asciitext, (x,y), fontwidth, fontheight):
+def draw_pic_letters(rowIndices, dickbutt, asciitext, (x,y), fontwidth, fontheight, count):
+	for i in range(count):
+		picdone = draw_pic_letter(rowIndices, dickbutt, asciitext, (x,y), fontwidth, fontheight)
+		if picdone:
+			break
+	
+	return picdone
+	
+def draw_pic_letter(rowIndices, dickbutt, asciitext, (x,y), fontwidth, fontheight, font=monospace6):
 	index = randint(0, len(rowIndices)-1)
-	letterToRender = asciitext[index][dickbutt[index]]
+	letterToRender = asciitext[rowIndices[index]][dickbutt[index]]
 	xpos = x+fontwidth*dickbutt[index]
-	ypos = y+font.get_height()*rowIndices[index]
-	screen.blit(font.render(letterToRender ,1, ORANGE),(xpos,ypos))
-	screen.blit(font.render(letterToRender ,1, ORANGE),(xpos,ypos))
-	screen.blit(font.render(letterToRender ,1, ORANGE),(xpos,ypos))
+	ypos = y+fontheight*rowIndices[index]
+	screen.blit(font.render(letterToRender, 1, ORANGE),(xpos,ypos))
+	screen.blit(font.render(letterToRender, 1, ORANGE),(xpos,ypos))
+	screen.blit(font.render(letterToRender, 1, ORANGE),(xpos,ypos))
 	dickbutt[index] += 1
 	if dickbutt[index] >= len(asciitext[0])-1:
 		rowIndices.pop(index)
 		dickbutt.pop(index)
 	pygame.display.update(pygame.Rect(xpos, ypos, fontwidth, fontheight))
-	uglyDelay(delay) # Maybe?
+	
+	return rowIndices == []
 
 def main():
+
 	logo = pics.logo
 	mort = pics.mort
 	skurk = pics.skurk
@@ -222,26 +243,32 @@ def main():
 	ninjapic = pygame.transform.scale(pygame.image.load('ninja.jpg'), (get_picsize_from_asciipic(ninja))).convert()
 	skurkpic = pygame.transform.scale(pygame.image.load('booby.jpg'), (get_picsize_from_asciipic(skurk))).convert()
 	haggepic = pygame.transform.scale(pygame.image.load('ingencd.png'), (get_picsize_from_asciipic(hagge))).convert()
-
 	pygame.mixer.music.play(-1)
+
 	#fade_pic_to_real_text(haggepic, hagge, center_pic(haggepic, 0, -150), hagge_text, (center_text(hagge_text), 600), 0.01)
-	asciipic_to_real_pic_with_text(haggepic, hagge, center_pic(haggepic, 0, -150), hagge_text, (center_text(hagge_text), 600), 5000)
-	asciipic_to_real_pic(ninjapic, ninja, center_pic(ninjapic, 0, -150), 5000)
-	asciipic_to_real_pic(skurkpic, skurk, center_pic(skurkpic, 0, -150), 5000)
-	asciipic_to_real_pic(mortpic, mort, center_pic(mortpic, 0, -150), 5000) 
-	
+	#asciipic_to_real_pic(ninjapic, ninja, center_pic(ninjapic, 0, -150), 5000)
+	#asciipic_to_real_pic(skurkpic, skurk, center_pic(skurkpic, 0, -150), 5000)
+	#asciipic_to_real_pic(mortpic, mort, center_pic(mortpic, 0, -150), 5000) 
 	#fade_pic_to_real_text(ninjapic, ninja, center_pic(ninjapic, 0, -140), ninja_text, (center_text(ninja_text), 650))
-
 	#fade_pic_to_real_text(skurkpic, skurk, center_pic(skurkpic, 0, -150), skurk_text, (center_text(skurk_text), 650), 0.015)
-
 	#fade_pic_to_real_text(mortpic, mort, center_pic(mortpic, 0, -150), mort_text, (center_text(mort_text), 580), 0.005)
 	
-	asciipic_to_real_pic(dHack, logo, center_pic(dHack))
+	asciipic_to_real_pic_with_text(haggepic, hagge, center_pic(haggepic, 0, -150), hagge_text, (center_text(hagge_text), 600))
+	asciipic_to_real_pic_with_text(ninjapic, ninja, center_pic(ninjapic, 0, -140), ninja_text, (center_text(hagge_text), 620))
+	asciipic_to_real_pic_with_text(skurkpic, skurk, center_pic(skurkpic, 0, -150), skurk_text, (center_text(hagge_text), 550))
+	asciipic_to_real_pic_with_text(mortpic, mort, center_pic(mortpic, 0, -150), mort_text, (center_text(hagge_text), 580))
+	asciipic_to_real_pic(dHack, logo, center_pic(dHack), 30000)
 	
-	print time() - start_time
+	#print time() - start_time
+	pygame.mixer.music.fadeout(3000)
+	sleep(3)
+	
+	pygame.quit()
+	raw_input("TJENNA, STRIKE THE ANY KEY TO STARTO VIDEORINO")
+	subprocess.call("\"C:\\Program Files (x86)\\VideoLAN\\VLC\\vlc.exe\" -f dHackmovie.mpg vlc://quit")
 
-def center_text(text):
-	x = (WIDTH - len(text[0])*monospace20.size("B")[0]) / 2
+def center_text(text, font=monospace20):
+	x = (WIDTH - len(text[0])*font.size("B")[0]) / 2
 	return x
 
 if __name__ == "__main__":
