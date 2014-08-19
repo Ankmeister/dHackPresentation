@@ -225,7 +225,7 @@ def draw_pic_letter(rowIndices, dickbutt, asciitext, (x,y), fontwidth, fontheigh
 	screen.blit(font.render(letterToRender, 1, ORANGE),(xpos,ypos))
 	screen.blit(font.render(letterToRender, 1, ORANGE),(xpos,ypos))
 	dickbutt[index] += 1
-	if dickbutt[index] >= len(asciitext[0])-1:
+	if dickbutt[index] >= len(asciitext[0]):
 		rowIndices.pop(index)
 		dickbutt.pop(index)
 	pygame.display.update(pygame.Rect(xpos, ypos, fontwidth, fontheight))
@@ -263,8 +263,9 @@ def main():
 	asciipic_to_real_pic(dHack, logo, center_pic(dHack), 30000)
 	
 	#print time() - start_time
-	pygame.mixer.music.fadeout(3000)
-	sleep(3)
+	sleep(5)
+	pygame.mixer.music.fadeout(4000)
+	sleep(4)
 	
 	pygame.quit()
 	raw_input("TJENNA, STRIKE THE ANY KEY TO STARTO VIDEORINO")
