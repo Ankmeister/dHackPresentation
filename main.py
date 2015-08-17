@@ -19,8 +19,8 @@ if args.fullscreen:
 	WIDTH = videoinfo.current_w
 	HEIGHT = videoinfo.current_h
 else:
-	WIDTH = 1280
-	HEIGHT = 800
+	WIDTH = 1440
+	HEIGHT = 900
 
 screen = pygame.display.set_mode((WIDTH,HEIGHT), args.fullscreen)
 BLACK = (0,0,0)
@@ -233,34 +233,33 @@ def draw_pic_letter(rowIndices, dickbutt, asciitext, (x,y), fontwidth, fontheigh
 	return rowIndices == []
 
 def main():
-
 	logo = pics.logo
-	mort = pics.mort
-	skurk = pics.skurk
-	ninja = pics.ninja
+	jassob = pics.jassob
+	bingo = pics.bingo
+	alling = pics.alling
 	hagge = pics.hagge
 
-	dHack = pygame.transform.scale(pygame.image.load('dhack.png'), (get_picsize_from_asciipic(logo))).convert()
-	mortpic = pygame.transform.scale(pygame.image.load('mort.jpg'), (get_picsize_from_asciipic(mort))).convert()
-	ninjapic = pygame.transform.scale(pygame.image.load('ninja.jpg'), (get_picsize_from_asciipic(ninja))).convert()
-	skurkpic = pygame.transform.scale(pygame.image.load('booby.jpg'), (get_picsize_from_asciipic(skurk))).convert()
-	haggepic = pygame.transform.scale(pygame.image.load('ingencd.png'), (get_picsize_from_asciipic(hagge))).convert()
+	dHack = pygame.transform.scale(pygame.image.load('img/dhack.png'), (get_picsize_from_asciipic(logo))).convert()
+	jassobpic = pygame.transform.scale(pygame.image.load('img/jassob.jpg'), (get_picsize_from_asciipic(jassob))).convert()
+	bingopic = pygame.transform.scale(pygame.image.load('img/bingobongosson.jpg'), (get_picsize_from_asciipic(bingo))).convert()
+	allingpic = pygame.transform.scale(pygame.image.load('img/badass-alling.jpg'), (get_picsize_from_asciipic(alling))).convert()
+	haggepic = pygame.transform.scale(pygame.image.load('img/haggeboi.jpg'), (get_picsize_from_asciipic(hagge))).convert()
+
 	pygame.mixer.music.play(-1)
 
-	#fade_pic_to_real_text(haggepic, hagge, center_pic(haggepic, 0, -150), hagge_text, (center_text(hagge_text), 600), 0.01)
-	#asciipic_to_real_pic(ninjapic, ninja, center_pic(ninjapic, 0, -150), 5000)
-	#asciipic_to_real_pic(skurkpic, skurk, center_pic(skurkpic, 0, -150), 5000)
-	#asciipic_to_real_pic(mortpic, mort, center_pic(mortpic, 0, -150), 5000) 
-
-	#fade_pic_to_real_text(ninjapic, ninja, center_pic(ninjapic, 0, -140), ninja_text, (center_text(ninja_text), 650))
-	#fade_pic_to_real_text(skurkpic, skurk, center_pic(skurkpic, 0, -150), skurk_text, (center_text(skurk_text), 650), 0.015)
-	#fade_pic_to_real_text(mortpic, mort, center_pic(mortpic, 0, -150), mort_text, (center_text(mort_text), 580), 0.005)
-	
-	asciipic_to_real_pic_with_text(haggepic, hagge, center_pic(haggepic, 0, -150), hagge_text, (center_text(hagge_text), 600))
-	asciipic_to_real_pic_with_text(ninjapic, ninja, center_pic(ninjapic, 0, -140), ninja_text, (center_text(hagge_text), 620))
-	asciipic_to_real_pic_with_text(skurkpic, skurk, center_pic(skurkpic, 0, -150), skurk_text, (center_text(hagge_text), 550))
-	asciipic_to_real_pic_with_text(mortpic, mort, center_pic(mortpic, 0, -150), mort_text, (center_text(hagge_text), 580))
+	asciipic_to_real_pic_with_text(haggepic, hagge, center_pic(haggepic), hagge_text, (center_text(hagge_text), 600))
+	asciipic_to_real_pic_with_text(bingopic, bingo, center_pic(bingopic), bingo_text, (center_text(bingo_text), 620))
+	asciipic_to_real_pic_with_text(allingpic, alling, center_pic(allingpic), alling_text, (center_text(alling_text), 550))
+	asciipic_to_real_pic_with_text(jassobpic, jassob, center_pic(jassobpic), jassob_text, (center_text(jassob_text), 580))
 	asciipic_to_real_pic(dHack, logo, center_pic(dHack), 30000)
+
+	# fade_pic_to_real_text(haggepic, hagge, center_pic(haggepic), hagge_text, (center_text(hagge_text), 0), 0.02)
+
+	# fade_pic_to_real_text(bingopic, bingo, center_pic(bingopic, 0, -150), bingo_text, (center_text(bingo_text), 650), 0.01)
+
+	# fade_pic_to_real_text(allingpic, alling, center_pic(allingpic, 0, -150), alling_text, (center_text(alling_text), 650), 0.01)
+
+	# fade_pic_to_real_text(jassobpic, jassob, center_pic(jassobpic, 0, -150), jassob_text, (center_text(jassob_text), 580), 0.01)
 	
 	#print time() - start_time
 	sleep(5)
